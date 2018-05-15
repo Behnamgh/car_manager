@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 // import { Item } from '../../models/item';
-// import { Items, DataProvider } from '../../providers/providers';
+import { DataProvider } from '../../providers/providers';
 // import { FuelListPage } from '../fuel-list/fuel-list';
 // import { ReportsPage } from '../reports/reports';
 // import { PartListPage } from '../part-list/part-list';
@@ -17,7 +17,7 @@ export class ListMasterPage {
   // currentItems: Item[];
   datas: any = [];
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private translate: TranslateService) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private translate: TranslateService, private dataProvider: DataProvider) {
     // this.currentItems = this.items.query();
     this.loadData();
     {
@@ -32,8 +32,8 @@ export class ListMasterPage {
 
   }
   loadData() {
-    // this.datas = this.dataProvider.loadDatas();
-    // console.log(this.datas);
+    this.datas = this.dataProvider.loadDatas();
+    console.log(this.datas);
 
   }
 
