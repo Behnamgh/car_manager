@@ -11,4 +11,7 @@
   <p>
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
   </p>
+  <button ion-button (click)="toggle()">tog</button>
+    <button ion-button (click)="changeLanguage('de')">{{ 'TAB1_TITLE' | translate }}</button>
+    <button ion-button (click)="changeLanguage('en')">{{ 'TAB2_TITLE' | translate }}</button>
 </ion-content>

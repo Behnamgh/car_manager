@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'LIST_MASTER_TITLE' | translate }}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addCar()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+hi
+<button ion-button (click)="changeLanguage('de')">{{ 'TAB1_TITLE' | translate }}</button>
+<button ion-button (click)="changeLanguage('en')">{{ 'TAB2_TITLE' | translate }}</button>
+  <!-- <ion-card *ngFor="let car of datas;let i = index">
+    <ion-card-header>
+      {{ car.name }}
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item (click)="openFuelList(i)">
+        <ion-icon name="battery-charging" item-start></ion-icon>
+        add fuel
+      </button>
+
+      <button ion-item (click)="openNot()">
+        <ion-icon name="car" item-start></ion-icon>
+        add kilometre
+      </button>
+
+
+      <button ion-item (click)="addPart(i)">
+        <ion-icon name="warning" item-start></ion-icon>
+        add part
+      </button>
+
+      <ion-item *ngIf="car.parts">
+        <button ion-item *ngFor="let part of car.parts;let ii = index" (click)="openPart(i,ii)">
+          <ion-icon name="nuclear" item-start></ion-icon>
+          {{part.name}}
+        </button>
+      </ion-item>
+
+      <button ion-item (click)="openReport(i)">
+        <ion-icon name="grid" item-start></ion-icon>
+        reports
+      </button>
+
+
+    </ion-list>
+  </ion-card> -->
+
+</ion-content>
