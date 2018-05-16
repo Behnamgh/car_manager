@@ -19,6 +19,11 @@ import { PipesModule } from '../pipes/pipes.module';
 import { DataProvider, Settings } from '../providers/providers';
 
 import { IonicStorageModule, Storage } from '@ionic/storage';
+import { FuelListPage } from '../pages/fuel-list/fuel-list';
+import { FuelCreatePage } from '../pages/fuel-create/fuel-create';
+import { AddPartPage } from '../pages/add-part/add-part';
+import { Camera } from '@ionic-native/camera';
+import { ItemCreatePage } from '../pages/item-create/item-create';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -47,7 +52,11 @@ export function provideSettings(storage: Storage) {
     TabsPage,
     ListMasterPage,
     SearchPage,
-    SettingsPage
+    SettingsPage,
+    FuelListPage,
+    FuelCreatePage,
+    AddPartPage,
+    ItemCreatePage
   ],
   imports: [
     BrowserModule,
@@ -70,9 +79,14 @@ export function provideSettings(storage: Storage) {
     TabsPage,
     ListMasterPage,
     SearchPage,
-    SettingsPage
+    SettingsPage,
+    FuelListPage,
+    FuelCreatePage,
+    AddPartPage,
+    ItemCreatePage
   ],
   providers: [
+    Camera,
     StatusBar,
     SplashScreen,
     PipesModule,

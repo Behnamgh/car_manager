@@ -1,0 +1,85 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>fuelList</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="mode = !mode">
+        <ion-icon name="barcode"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addFuel()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <span *ngIf="mode">
+    <ion-card *ngFor="let fuel of fuelList">
+      <ion-card-header>
+        <ion-icon name="battery-charging" *ngIf="fuel.favorite == 'true'"></ion-icon>
+        {{fuel.name}}
+      </ion-card-header>
+      <ion-card-content>
+        <h4>{{fuel.kilometre}}Km -- {{fuel.litr}}Lt</h4>
+      </ion-card-content>
+      <ion-row>
+
+        <ion-col center text-center>
+          <!-- <ion-note>
+            
+          </ion-note> -->
+          <ion-chip>
+            <ion-icon name="pin"></ion-icon>
+            <ion-label>{{fuel.location}}</ion-label>
+          </ion-chip>
+        </ion-col>
+        <ion-col center text-center>
+          <ion-note>
+            {{fuel.date}}
+          </ion-note>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </span>
+  <span *ngIf="!mode">
+    <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+      <ion-item-sliding *ngFor="let fuel of fuelList;let i = index" #item>
+        <ion-item>
+          <h2>
+            <ion-icon name="battery-charging" *ngIf="fuel.favorite == 'true'"></ion-icon>
+            {{fuel.name}}
+          </h2>
+<!-- <h4>{{fuel.kilometre}}-{{fuel.litr}}</h4> -->
+          <h4>{{fuel.kilometre}}KM -- {{fuel.litr}}Lt</h4>
+
+          <ion-row>
+            <ion-col center text-center>
+              <ion-note>
+                {{fuel.location}}
+              </ion-note>
+            </ion-col>
+            <ion-col center text-center>
+              <ion-note>
+                {{fuel.date}}
+              </ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button (click)="favorite(i)">Favorite</button>
+          <!-- <button ion-button (click)="share(i)">Share</button> -->
+        </ion-item-options>
+
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="delete(i)">Delete</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </span>
+
+</ion-content>

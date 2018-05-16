@@ -3,10 +3,12 @@ import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 // import { Item } from '../../models/item';
 import { DataProvider } from '../../providers/providers';
-// import { FuelListPage } from '../fuel-list/fuel-list';
+import { FuelListPage } from '../fuel-list/fuel-list';
 // import { ReportsPage } from '../reports/reports';
 // import { PartListPage } from '../part-list/part-list';
 import { TranslateService } from '@ngx-translate/core';
+import { AddPartPage } from '../add-part/add-part';
+import { ItemCreatePage } from '../item-create/item-create';
 
 @IonicPage()
 @Component({
@@ -68,28 +70,28 @@ export class ListMasterPage {
    * modal and then adds the new item to our data source if the user created one.
    */
   addCar() {
-    // let addModal = this.modalCtrl.create('ItemCreatePage');
-    // addModal.onDidDismiss(item => {
-    //   if (item) {
-    //     this.dataProvider.addData('datas', item);
-    //     this.loadData();
-    //   }
-    //   // console.log(item);
+    let addModal = this.modalCtrl.create(ItemCreatePage);
+    addModal.onDidDismiss(item => {
+      if (item) {
+        this.dataProvider.addData('datas', item);
+        this.loadData();
+      }
+      // console.log(item);
 
-    // })
-    // addModal.present();
+    })
+    addModal.present();
   }
   addPart(index) {
-    // let addModal = this.modalCtrl.create('ItemCreatePage');
-    // addModal.onDidDismiss(item => {
-    //   if (item) {
-    //     this.dataProvider.addPart(index, item);
-    //     this.loadData();
-    //   }
-    //   // console.log(item);
+    let addModal = this.modalCtrl.create(AddPartPage);
+    addModal.onDidDismiss(item => {
+      if (item) {
+        this.dataProvider.addPart(index, item);
+        this.loadData();
+      }
+      // console.log(item);
 
-    // })
-    // addModal.present();
+    })
+    addModal.present();
   }
 
   /**
@@ -110,9 +112,11 @@ export class ListMasterPage {
 
   }
   openFuelList(car) {
-    // this.navCtrl.push(FuelListPage, {
-    //   car: car
-    // });
+    console.log('check');
+    
+    this.navCtrl.push(FuelListPage, {
+      car: car
+    });
   }
 
   openReport(car) {
