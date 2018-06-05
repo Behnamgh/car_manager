@@ -4,8 +4,8 @@ import { IonicPage, ModalController, NavController } from 'ionic-angular';
 // import { Item } from '../../models/item';
 import { DataProvider } from '../../providers/providers';
 import { FuelListPage } from '../fuel-list/fuel-list';
-// import { ReportsPage } from '../reports/reports';
-// import { PartListPage } from '../part-list/part-list';
+import { ReportsPage } from '../reports/reports';
+import { PartListPage } from '../part-list/part-list';
 import { TranslateService } from '@ngx-translate/core';
 import { AddPartPage } from '../add-part/add-part';
 import { ItemCreatePage } from '../item-create/item-create';
@@ -53,7 +53,7 @@ export class ListMasterPage {
       this.translate.use(lang);
     }
     console.log(this.translate.getDefaultLang());
-    
+
     this.translate.get('SEARCH_TITLE').subscribe((res: string) => {
       console.log(res);
       //=> 'hello world'
@@ -70,6 +70,8 @@ export class ListMasterPage {
    * modal and then adds the new item to our data source if the user created one.
    */
   addCar() {
+    console.log('addCar');
+    
     let addModal = this.modalCtrl.create(ItemCreatePage);
     addModal.onDidDismiss(item => {
       if (item) {
@@ -82,6 +84,8 @@ export class ListMasterPage {
     addModal.present();
   }
   addPart(index) {
+    console.log('addPart');
+    
     let addModal = this.modalCtrl.create(AddPartPage);
     addModal.onDidDismiss(item => {
       if (item) {
@@ -105,24 +109,28 @@ export class ListMasterPage {
    * Navigate to the detail page for this item.
    */
   openPart(car, part) {
-    // this.navCtrl.push(PartListPage, {
-    //   car: car,
-    //   part: part
-    // });
+    console.log('openPart');
+    
+    this.navCtrl.push(PartListPage, {
+      car: car,
+      part: part
+    });
 
   }
   openFuelList(car) {
-    console.log('check');
-    
+    console.log('openFuelList');
+
     this.navCtrl.push(FuelListPage, {
       car: car
     });
   }
 
   openReport(car) {
-    // this.navCtrl.push(ReportsPage, {
-    //   car: car
-    // });
+    console.log('openReport');
+    
+    this.navCtrl.push(ReportsPage, {
+      car: car
+    });
   }
   public changeLanguage(language) {
     this.translate.use(language);

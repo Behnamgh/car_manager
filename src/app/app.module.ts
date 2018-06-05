@@ -18,12 +18,19 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PipesModule } from '../pipes/pipes.module';
 import { DataProvider, Settings } from '../providers/providers';
 
+import { ChartsModule } from 'ng2-charts';
+
+
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { FuelListPage } from '../pages/fuel-list/fuel-list';
 import { FuelCreatePage } from '../pages/fuel-create/fuel-create';
 import { AddPartPage } from '../pages/add-part/add-part';
 import { Camera } from '@ionic-native/camera';
 import { ItemCreatePage } from '../pages/item-create/item-create';
+import { PartListPage } from '../pages/part-list/part-list';
+import { PartRenewPage } from '../pages/part-renew/part-renew';
+import { ReportsPage } from '../pages/reports/reports';
+import { ReportFilterPage } from '../pages/report-filter/report-filter';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -56,7 +63,11 @@ export function provideSettings(storage: Storage) {
     FuelListPage,
     FuelCreatePage,
     AddPartPage,
-    ItemCreatePage
+    ItemCreatePage,
+    PartListPage,
+    PartRenewPage,
+    ReportsPage,
+    ReportFilterPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +80,9 @@ export function provideSettings(storage: Storage) {
       }
     }),
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ChartsModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -83,7 +96,11 @@ export function provideSettings(storage: Storage) {
     FuelListPage,
     FuelCreatePage,
     AddPartPage,
-    ItemCreatePage
+    ItemCreatePage,
+    PartListPage,
+    PartRenewPage,
+    ReportsPage,
+    ReportFilterPage
   ],
   providers: [
     Camera,

@@ -1,0 +1,48 @@
+<!--
+  Generated template for the PartListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>part-list</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addPartRenew()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-card *ngFor="let data of partData.list">
+  <ion-card-header>
+    <ion-icon name="battery-charging"></ion-icon>
+    {{data.name}}
+  </ion-card-header>
+  <ion-card-content>
+    <h4>{{data.kilometre}}Km -- {{data.reminder_period}} -- {{data.reminder_type }}</h4>
+  </ion-card-content>
+  <ion-row>
+
+    <ion-col center text-center>
+      <!-- <ion-note>
+            
+          </ion-note> -->
+      <ion-chip>
+        <ion-icon name="pin"></ion-icon>
+        <ion-label>{{data.location}}</ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        {{data.date}}
+      </ion-note>
+    </ion-col>
+  </ion-row>
+</ion-card></ion-content>

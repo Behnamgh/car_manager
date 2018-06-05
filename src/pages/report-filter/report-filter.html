@@ -1,0 +1,38 @@
+<ion-list>
+  <ion-list-header>Filter</ion-list-header>
+  <ion-item>
+    <ion-label>count</ion-label>
+    <ion-select [(ngModel)]="count">
+      <ion-option value="10">10</ion-option>
+      <ion-option value="20" checked>20</ion-option>
+      <ion-option value="30">30</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Chart</ion-label>
+    <ion-select [(ngModel)]="chart">
+      <ion-option value="line" checked>line</ion-option>
+      <ion-option value="bar">bar</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Toggle</ion-label>
+    <ion-toggle></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Checkbox</ion-label>
+    <ion-checkbox></ion-checkbox>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label>Times</ion-label>
+    <ion-range dualKnobs="true" pin="true" [(ngModel)]="dateAgo" color="dark" min="-90" max="0" step="1">
+    </ion-range>
+  </ion-item>
+  <ion-buttons center>
+    <button ion-button round outline (click)="addCar()">
+      APPLY </button>
+  </ion-buttons>
+
+</ion-list>
