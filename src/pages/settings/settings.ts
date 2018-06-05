@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-// import { Settings } from '../../providers/providers';
+import { Settings } from '../../providers/providers';
 
 /**
  * The Settings page is a simple form that syncs with a Settings provider
@@ -35,7 +35,7 @@ export class SettingsPage {
   subSettings: any = SettingsPage;
 
   constructor(public navCtrl: NavController,
-    // public settings: Settings,
+    public settings: Settings,
     public formBuilder: FormBuilder,
     public navParams: NavParams,
     public translate: TranslateService) {
@@ -61,17 +61,20 @@ export class SettingsPage {
 
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
-      // this.settings.getValue('lang').then(res => {
-      //   // console.log(res);
-      //   // console.log(this.form.value.lang);
+      this.settings.getValue('lang').then(res => {
+        // console.log(res);
+        // console.log(this.form.value.lang);
 
-      //   if (res != this.form.value.lang) {
-      //     this.translate.setDefaultLang(this.form.value.lang);
-      //     localStorage.setItem('lang', this.form.value.lang);
-      //   }
-      //   this.settings.merge(this.form.value);
-      // });
-      // // console.log();
+        if (res != this.form.value.lang) {
+      ;     this.translate.setDefaultLang(this.form.value.lang);
+          this.translate.use(this.form.value.lang);
+          localStorage.setItem('lang', this.form.value.lang);
+          console.log('this.form.value.lang', this.form.value.lang);
+          
+        }
+        this.settings.merge(this.form.value);
+      });
+      // // console.log()
 
 
     });
@@ -93,12 +96,12 @@ export class SettingsPage {
       this.pageTitle = res;
     })
 
-    // this.settings.load().then(() => {
-    //   this.settingsReady = true;
-    //   this.options = this.settings.allSettings;
+    this.settings.load().then(() => {
+      this.settingsReady = true;
+      this.options = this.settings.allSettings;
 
-    //   this._buildForm();
-    // });
+      this._buildForm();
+    });
   }
 
   ngOnChanges() {
