@@ -39,9 +39,11 @@ export class ListMasterPage {
         if(car.parts){
           car.parts.forEach(part => {
             part.notification = 0;
-            part.list.filter(item => !item.reminded && item.reminder_type == 'km').forEach(item => {
-              if (item.kilometre < car.maxKm)++part.notification;
-            });
+            if(part.list){
+              part.list.filter(item => !item.reminded && item.reminder_type == 'km').forEach(item => {
+                if (item.kilometre < car.maxKm)++part.notification;
+              });
+            }
             console.log(part);
           });
         }

@@ -44,7 +44,7 @@ export class DataProvider {
         if (car.parts && car.parts.length) {
           car.parts.forEach(part => {
             let partMax;
-            partMax = part.list.length ? Math.max(...part.list.map(p => parseInt(p.kilometre))) : 0;
+            partMax = part.list && part.list.length ? Math.max(...part.list.map(p => parseInt(p.kilometre))) : 0;
             if (partMax > max) max = partMax;
           });
         }
