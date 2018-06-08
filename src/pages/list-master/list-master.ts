@@ -21,7 +21,6 @@ export class ListMasterPage {
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, private translate: TranslateService, private dataProvider: DataProvider) {
     // this.currentItems = this.items.query();
-    this.loadData();
     {
       let lang = localStorage.getItem('lang');
       if (!lang) {
@@ -31,18 +30,20 @@ export class ListMasterPage {
       translate.setDefaultLang(lang);
       translate.use(lang);
     }
-
+    
   }
   loadData() {
     this.datas = this.dataProvider.loadDatas();
     console.log(this.datas);
-
+    
   }
-
+  
   /**
    * The view loaded, let's query our items for the list
    */
   ionViewDidEnter() {
+    this.loadData();
+    
     {
       let lang = localStorage.getItem('lang');
       if (!lang) {
@@ -61,8 +62,9 @@ export class ListMasterPage {
     // console.log('enter');
   }
   ionViewDidLoad() {
-    // console.log('check');
+    console.log(';did load');
 
+    this.loadData();
   }
 
   /**
@@ -71,7 +73,7 @@ export class ListMasterPage {
    */
   addCar() {
     console.log('addCar');
-    
+
     let addModal = this.modalCtrl.create(ItemCreatePage);
     addModal.onDidDismiss(item => {
       if (item) {
@@ -85,7 +87,7 @@ export class ListMasterPage {
   }
   addPart(index) {
     console.log('addPart');
-    
+
     let addModal = this.modalCtrl.create(AddPartPage);
     addModal.onDidDismiss(item => {
       if (item) {
@@ -110,7 +112,7 @@ export class ListMasterPage {
    */
   openPart(car, part) {
     console.log('openPart');
-    
+
     this.navCtrl.push(PartListPage, {
       car: car,
       part: part
@@ -127,7 +129,7 @@ export class ListMasterPage {
 
   openReport(car) {
     console.log('openReport');
-    
+
     this.navCtrl.push(ReportsPage, {
       car: car
     });

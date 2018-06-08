@@ -20,29 +20,39 @@
 
 
 <ion-content padding>
-<ion-card *ngFor="let data of partData.list">
-  <ion-card-header>
-    <ion-icon name="battery-charging"></ion-icon>
-    {{data.name}}
-  </ion-card-header>
-  <ion-card-content>
-    <h4>{{data.kilometre}}Km -- {{data.reminder_period}} -- {{data.reminder_type }}</h4>
-  </ion-card-content>
-  <ion-row>
 
-    <ion-col center text-center>
-      <!-- <ion-note>
-            
-          </ion-note> -->
-      <ion-chip>
-        <ion-icon name="pin"></ion-icon>
-        <ion-label>{{data.location}}</ion-label>
-      </ion-chip>
-    </ion-col>
-    <ion-col center text-center>
-      <ion-note>
-        {{data.date}}
-      </ion-note>
-    </ion-col>
-  </ion-row>
-</ion-card></ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let data of partData.list;let i = index" #item>
+      <ion-item>
+        <h2>
+            <ion-icon name="close-circle" *ngIf="data.reminded"></ion-icon>
+
+          {{data.name}}
+        </h2>
+        <!-- <h4>{{fuel.kilometre}}-{{fuel.litr}}</h4> -->
+    <h4>{{data.kilometre}}Km -- {{data.reminder_period}} -- {{data.reminder_type }}</h4>
+  
+        <ion-row>
+          <ion-col center text-center>
+            <ion-note>
+              {{data.location}}
+            </ion-note>
+          </ion-col>
+          <ion-col center text-center>
+            <ion-note>
+              {{data.date}}
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button (click)="disabled(i)">disabled</button>
+      </ion-item-options>
+  
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="delete(i)">Delete</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

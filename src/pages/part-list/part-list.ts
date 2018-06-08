@@ -23,8 +23,7 @@ export class PartListPage {
     this.carNumber = navParams.get('car');
     this.partNumber = navParams.get('part');
     // console.log(this.carNumber,this.partNumber  );
-    this.partData = this.data.loadPart(this.carNumber, this.partNumber);
-
+this.loadPartList();
   }
 
   ionViewDidLoad() {
@@ -36,11 +35,24 @@ export class PartListPage {
     addPartRenew.onDidDismiss(item => {
       if (item) {
         this.data.addPartRenew(this.carNumber, this.partNumber, item);
-        // this.loadFuelList();
+        this.loadPartList();
         console.log(item);
       }
 
     })
     addPartRenew.present();
+  }
+  loadPartList(){
+    this.partData = this.data.loadPart(this.carNumber, this.partNumber);
+  }
+  disabled(i){
+    console.log(i);
+    this.data.disablePartAlert(this.carNumber,this.partNumber,i);
+    this.loadPartList();
+    
+  }
+  delete(i){
+    console.log(i);
+    
   }
 }

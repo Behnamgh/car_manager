@@ -54,7 +54,7 @@
             <ion-icon name="battery-charging" *ngIf="fuel.favorite == 'true'"></ion-icon>
             {{fuel.name}}
           </h2>
-<!-- <h4>{{fuel.kilometre}}-{{fuel.litr}}</h4> -->
+          <!-- <h4>{{fuel.kilometre}}-{{fuel.litr}}</h4> -->
           <h4>{{fuel.kilometre}}KM -- {{fuel.litr}}Lt</h4>
 
           <ion-row>
@@ -72,7 +72,7 @@
         </ion-item>
         <ion-item-options side="left">
           <button ion-button (click)="favorite(i)">Favorite</button>
-          <!-- <button ion-button (click)="share(i)">Share</button> -->
+          <button ion-button color="secondary" (click)="edit(i)">Share</button>
         </ion-item-options>
 
         <ion-item-options side="right">

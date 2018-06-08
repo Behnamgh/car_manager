@@ -31,8 +31,8 @@ export class PartRenewPage {
       location: [''],
       date: [moment().format('jYYYY-jMM-jDDTHH:MM:SS'), Validators.required],
       kilometre: [, [Validators.required]],
-      reminder_type: ['', [Validators.required]],
-      reminder_period: ['', [Validators.required]],
+      reminder_type: ['km', [Validators.required]],
+      reminder_period: ['50', [Validators.required]],
     });
 
     this.form.valueChanges.subscribe((v) => {

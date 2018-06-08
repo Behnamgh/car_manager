@@ -26,18 +26,32 @@ export class FuelCreatePage {
   carData: object;
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public dataProvider: DataProvider) {
     let carNumber = navParams.get('carNumber');
+    let data = navParams.get('data');
     this.carData = this.dataProvider.loadCar(carNumber);
-
+    
     let MIN = dataProvider.getMaxKm(carNumber) + 1;
     // console.log(MIN);
-
-    this.form = formBuilder.group({
-      name: [''],
-      location: [''],
-      date: [moment().format('jYYYY-jMM-jDDTHH:MM:SS'), Validators.required],
-      litr: ['', [Validators.min(0), Validators.required]],
-      kilometre: [, [Validators.min(MIN), Validators.required]],
-    });
+    
+    if(data){
+      console.log(data);
+      this.form = formBuilder.group({
+        name: [data.name],
+        location: [data.location],
+        date: [data.date, Validators.required],
+        litr: [data.litr, [Validators.min(0), Validators.required]],
+        kilometre: [data.kilometre, [Validators.required]],
+      });
+      
+    }else{
+      
+      this.form = formBuilder.group({
+        name: [''],
+        location: [''],
+        date: [moment().format('jYYYY-jMM-jDDTHH:MM:SS'), Validators.required],
+        litr: ['', [Validators.min(0), Validators.required]],
+        kilometre: [, [Validators.min(MIN), Validators.required]],
+      });
+    }
 
     this.form.valueChanges.subscribe((v) => {
       this.isReadyToSave = this.form.valid;

@@ -29,12 +29,11 @@ export class FuelListPage {
     this.loadFuelList();
   }
   addFuel() {
-    console.log(this.carNumber);
     let addFuel = this.modalCtrl.create(FuelCreatePage, { carNumber: this.carNumber });
     addFuel.onDidDismiss(item => {
       if (item) {
         // console.log(item.date);
-        
+
         this.dataProvider.addFuel(this.carNumber, item);
         this.loadFuelList();
       }
@@ -50,7 +49,19 @@ export class FuelListPage {
     this.dataProvider.favoriteFuel(this.carNumber, i);
     this.loadFuelList();
   }
+  edit(i) {
+    let addFuel = this.modalCtrl.create(FuelCreatePage, { carNumber: this.carNumber, data: this.fuelList[i] });
+    addFuel.onDidDismiss(item => {
+      if (item) {
+        console.log(item);
+        this.dataProvider.editFuel(this.carNumber, i, item);
+        this.loadFuelList();
 
+      }
+
+    })
+    addFuel.present();
+  }
   delete(i) {
     this.dataProvider.deleteFuel(this.carNumber, i);
     this.loadFuelList();

@@ -108,6 +108,6 @@ export class SettingsPage {
     // console.log('Ng All Changes');
   }
   deleteLocal(){
-    localStorage.removeItem('skip');
+    localStorage.removeItem('datas');
   }
 }
