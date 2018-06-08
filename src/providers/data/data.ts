@@ -170,11 +170,8 @@ export class DataProvider {
     parts.forEach((part, i) => {
       part.list.filter(item => !item.reminded && item.reminder_type == 'km');
       let o = part.list.some(element => {
-        console.log(parseInt(km), parseInt(element.kilometre) + parseInt(element.reminder_period));
         if (parseInt(km) > parseInt(element.kilometre) + parseInt(element.reminder_period)) {
-          console.log('not');
           alertList.push({ name: part.name, value: i });
-          console.log(alertList);
 
           return true;
         }

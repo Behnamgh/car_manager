@@ -22,15 +22,12 @@ export class PartListPage {
   constructor(public navCtrl: NavController, private alertCtrl: AlertController, public navParams: NavParams, public modalCtrl: ModalController, private data: DataProvider) {
     this.carNumber = navParams.get('car');
     this.partNumber = navParams.get('part');
-    // console.log(this.carNumber,this.partNumber  );
     this.loadPartList();
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad PartListPage');
   }
   addPartRenew() {
-    // console.log(this.carNumber);
     let addPartRenew = this.modalCtrl.create(PartRenewPage);
     addPartRenew.onDidDismiss(item => {
       if (item) {
@@ -62,7 +59,6 @@ export class PartListPage {
         }
 
         this.loadPartList();
-        console.log(item);
       }
     })
     addPartRenew.present();
@@ -71,7 +67,6 @@ export class PartListPage {
     this.partData = this.data.loadPart(this.carNumber, this.partNumber);
   }
   disabled(i) {
-    console.log(i);
     this.data.disablePartAlert(this.carNumber, this.partNumber, i);
     this.loadPartList();
 
