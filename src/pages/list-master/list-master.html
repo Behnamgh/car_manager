@@ -39,6 +39,8 @@
         <button ion-item *ngFor="let part of car.parts;let ii = index" (click)="openPart(i,ii)">
           <ion-icon name="nuclear" item-start></ion-icon>
           {{part.name}}
+          <ion-badge *ngIf="part.notification" item-end>{{part.notification}}</ion-badge>
+
         </button>
       </ion-item>
 

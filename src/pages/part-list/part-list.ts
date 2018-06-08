@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { PartRenewPage } from '../part-renew/part-renew';
 
@@ -19,11 +19,11 @@ export class PartListPage {
   carNumber: number;
   partNumber: number;
   partData: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private data: DataProvider) {
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController, public navParams: NavParams, public modalCtrl: ModalController, private data: DataProvider) {
     this.carNumber = navParams.get('car');
     this.partNumber = navParams.get('part');
     // console.log(this.carNumber,this.partNumber  );
-this.loadPartList();
+    this.loadPartList();
   }
 
   ionViewDidLoad() {
@@ -34,25 +34,56 @@ this.loadPartList();
     let addPartRenew = this.modalCtrl.create(PartRenewPage);
     addPartRenew.onDidDismiss(item => {
       if (item) {
-        this.data.addPartRenew(this.carNumber, this.partNumber, item);
+        let alertList = this.data.addPartRenew(this.carNumber, this.partNumber, item);
+
+        if (alertList.length) {
+          let alert = this.alertCtrl.create();
+          alert.setTitle('reminder');
+          alertList.forEach(element => {
+
+            alert.addInput({
+              type: 'radio',
+              label: element.name,
+              value: element.value,
+              checked: false
+            });
+          });
+
+          alert.addButton('Cancel');
+          alert.addButton({
+            text: 'Ok',
+            handler: (data: any) => {
+              console.log('Radio data:', data);
+              this.openPart(this.carNumber,data);
+            }
+          });
+
+          alert.present();
+        }
+
         this.loadPartList();
         console.log(item);
       }
-
     })
     addPartRenew.present();
   }
-  loadPartList(){
+  loadPartList() {
     this.partData = this.data.loadPart(this.carNumber, this.partNumber);
   }
-  disabled(i){
+  disabled(i) {
     console.log(i);
-    this.data.disablePartAlert(this.carNumber,this.partNumber,i);
+    this.data.disablePartAlert(this.carNumber, this.partNumber, i);
     this.loadPartList();
-    
+
   }
-  delete(i){
-    console.log(i);
-    
+  delete(i) {
+    console.log(i, 'NOT IMPLEMENTED');
+  }
+  openPart(car, part) {
+    this.navCtrl.push(PartListPage, {
+      car: car,
+      part: part
+    });
+
   }
 }

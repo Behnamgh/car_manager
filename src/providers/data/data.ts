@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 import * as moment from 'jalali-moment';
-import { AlertController } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
+import { PartListPage } from '../../pages/part-list/part-list';
 
 
 
@@ -15,7 +16,7 @@ import { AlertController } from 'ionic-angular';
 @Injectable()
 export class DataProvider {
 
-  constructor(public storage: Storage, private alertCtrl: AlertController) {
+  constructor(public storage: Storage) {
 
   }
   setData(key, value) {
@@ -30,7 +31,29 @@ export class DataProvider {
     localStorage.setItem(key, JSON.stringify(data));
   }
   loadDatas(key: string = 'datas') {
+    this.updateMaxKm();
     return JSON.parse(localStorage.getItem(key));
+  }
+  updateMaxKm() {
+    let datas = JSON.parse(localStorage.getItem('datas'));
+    let newDatas = [];
+    datas.forEach(car => {
+      let max;
+      // if(!car['maxKm']){
+      //    max = 0
+      // }else{
+      //   max = car['maxKm'];
+      // }
+      max = car.Fuels.length ? Math.max(...car.Fuels.map(fuel => parseInt(fuel.kilometre))) : 0;
+      car.parts.forEach(part => {
+        let partMax;
+        partMax = part.list.length ? Math.max(...part.list.map(p => parseInt(p.kilometre))) : 0;
+        if (partMax > max) max = partMax;
+      });
+      car['maxKm'] = max;
+      newDatas.push(car);
+    });
+    this.setData('datas', newDatas);
   }
   loadCar(carNumber) {
     let result = JSON.parse(localStorage.getItem('datas'));
@@ -128,16 +151,19 @@ export class DataProvider {
 
     if (part) {
       item.reminded = this.checkReminder(part, item.kilometre);
-      console.log('2', this.checkReminder2(result[carNumber].parts, item.kilometre));
       part.push(item);
     } else {
       item.reminded = false;
       part = [item]
     }
     result[carNumber].parts[partNumber]['list'] = part;
+    let res = this.checkReminder2(carNumber, result[carNumber].parts, item.kilometre);
+    console.log(res);
+    
+    return res;
     localStorage.setItem('datas', JSON.stringify(result));
   }
-  checkReminder2(parts, km) {
+  checkReminder2(carNumber,parts, km) {
     let alertList = [];
     // console.log('inside', parts, km);
 
@@ -147,7 +173,7 @@ export class DataProvider {
         console.log(parseInt(km), parseInt(element.kilometre) + parseInt(element.reminder_period));
         if (parseInt(km) > parseInt(element.kilometre) + parseInt(element.reminder_period)) {
           console.log('not');
-          alertList.push({ name: part.name });
+          alertList.push({ name: part.name, value: i });
           console.log(alertList);
 
           return true;
@@ -155,44 +181,19 @@ export class DataProvider {
       });
     });
 
-
-    if (alertList.length) {
-      let alert = this.alertCtrl.create();
-      alert.setTitle('reminder');
-      alertList.forEach(element => {
-
-        alert.addInput({
-          type: 'radio',
-          label: element.name,
-          value: element.name,
-          checked: true
-        });
-      });
-
-
-
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'Ok',
-        handler: (data: any) => {
-          console.log('Radio data:', data);
-        }
-      });
-
-      alert.present();
-    }
     return alertList;
   }
-  disablePartAlert(carNumber, partNumber,i) {
+
+  disablePartAlert(carNumber, partNumber, i) {
     let result = JSON.parse(localStorage.getItem('datas'));
     let parts = result[carNumber].parts;
-    if (parts[partNumber].list[i]['reminded']){
+    if (parts[partNumber].list[i]['reminded']) {
 
       parts[partNumber].list[i]['reminded'] = !parts[partNumber].list[i]['reminded'];
-}    else{
+    } else {
 
-  parts[partNumber].list[i]['reminded'] = true;
-}
+      parts[partNumber].list[i]['reminded'] = true;
+    }
     result[carNumber].parts = parts;
     console.log(parts, result);
     localStorage.setItem('datas', JSON.stringify(result));

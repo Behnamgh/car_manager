@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataProvider } from '../../providers/data/data';
 import * as moment from 'jalali-moment';
+import { PartListPage } from '../part-list/part-list';
 
 /**
  * Generated class for the PartRenewPage page.
@@ -25,7 +26,7 @@ export class PartRenewPage {
   carData: object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public dataProvider: DataProvider) {
- 
+
     this.form = formBuilder.group({
       name: [''],
       location: [''],
@@ -51,6 +52,14 @@ export class PartRenewPage {
   done() {
     if (!this.form.valid) { return; };
     this.viewCtrl.dismiss(this.form.value);
+  }
+
+  openPart(car, part) {
+    this.navCtrl.push(PartListPage, {
+      car: car,
+      part: part
+    });
+
   }
 
 }

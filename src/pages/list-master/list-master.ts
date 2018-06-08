@@ -30,20 +30,29 @@ export class ListMasterPage {
       translate.setDefaultLang(lang);
       translate.use(lang);
     }
-    
+
   }
   loadData() {
-    this.datas = this.dataProvider.loadDatas();
-    console.log(this.datas);
-    
+    let datas = this.dataProvider.loadDatas();
+    datas.forEach(car => {
+      car.parts.forEach(part => {
+        part.notification = 0;
+        part.list.filter(item => !item.reminded && item.reminder_type == 'km')  .forEach(item => {
+          if (item.kilometre < car.maxKm) ++part.notification;
+        });
+        console.log(part);
+      });
+    });
+    this.datas = datas
+
   }
-  
+
   /**
    * The view loaded, let's query our items for the list
    */
   ionViewDidEnter() {
     this.loadData();
-    
+
     {
       let lang = localStorage.getItem('lang');
       if (!lang) {
