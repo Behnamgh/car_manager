@@ -37,23 +37,22 @@ export class DataProvider {
   updateMaxKm() {
     let datas = JSON.parse(localStorage.getItem('datas'));
     let newDatas = [];
-    datas.forEach(car => {
-      let max;
-      // if(!car['maxKm']){
-      //    max = 0
-      // }else{
-      //   max = car['maxKm'];
-      // }
-      max = car.Fuels.length ? Math.max(...car.Fuels.map(fuel => parseInt(fuel.kilometre))) : 0;
-      car.parts.forEach(part => {
-        let partMax;
-        partMax = part.list.length ? Math.max(...part.list.map(p => parseInt(p.kilometre))) : 0;
-        if (partMax > max) max = partMax;
+    if (datas && datas.length) {
+      datas.forEach(car => {
+        let max;
+        max = car.Fuels && car.Fuels.length ? Math.max(...car.Fuels.map(fuel => parseInt(fuel.kilometre))) : 0;
+        if (car.parts && car.parts.length) {
+          car.parts.forEach(part => {
+            let partMax;
+            partMax = part.list.length ? Math.max(...part.list.map(p => parseInt(p.kilometre))) : 0;
+            if (partMax > max) max = partMax;
+          });
+        }
+        car['maxKm'] = max;
+        newDatas.push(car);
       });
-      car['maxKm'] = max;
-      newDatas.push(car);
-    });
-    this.setData('datas', newDatas);
+      this.setData('datas', newDatas);
+    }
   }
   loadCar(carNumber) {
     let result = JSON.parse(localStorage.getItem('datas'));
@@ -159,11 +158,11 @@ export class DataProvider {
     result[carNumber].parts[partNumber]['list'] = part;
     let res = this.checkReminder2(carNumber, result[carNumber].parts, item.kilometre);
     console.log(res);
-    
+
     localStorage.setItem('datas', JSON.stringify(result));
     return res;
   }
-  checkReminder2(carNumber,parts, km) {
+  checkReminder2(carNumber, parts, km) {
     let alertList = [];
     // console.log('inside', parts, km);
 

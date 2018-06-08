@@ -34,17 +34,20 @@ export class ListMasterPage {
   }
   loadData() {
     let datas = this.dataProvider.loadDatas();
-    datas.forEach(car => {
-      car.parts.forEach(part => {
-        part.notification = 0;
-        part.list.filter(item => !item.reminded && item.reminder_type == 'km')  .forEach(item => {
-          if (item.kilometre < car.maxKm) ++part.notification;
-        });
-        console.log(part);
+    if (datas) {
+      datas.forEach(car => {
+        if(car.parts){
+          car.parts.forEach(part => {
+            part.notification = 0;
+            part.list.filter(item => !item.reminded && item.reminder_type == 'km').forEach(item => {
+              if (item.kilometre < car.maxKm)++part.notification;
+            });
+            console.log(part);
+          });
+        }
       });
-    });
+    }
     this.datas = datas
-
   }
 
   /**

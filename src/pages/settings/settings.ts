@@ -109,5 +109,6 @@ export class SettingsPage {
   }
   deleteLocal(){
     localStorage.removeItem('datas');
+    localStorage.removeItem('skip');
   }
 }
