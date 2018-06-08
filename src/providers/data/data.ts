@@ -160,8 +160,8 @@ export class DataProvider {
     let res = this.checkReminder2(carNumber, result[carNumber].parts, item.kilometre);
     console.log(res);
     
-    return res;
     localStorage.setItem('datas', JSON.stringify(result));
+    return res;
   }
   checkReminder2(carNumber,parts, km) {
     let alertList = [];
