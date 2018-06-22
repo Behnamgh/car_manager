@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>fuelList</ion-title>
+    <ion-title>{{'FUEL_LIST' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="mode = !mode">
         <ion-icon name="barcode"></ion-icon>
@@ -83,3 +83,13 @@
   </span>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar end>
+    <ion-title *ngIf="lastKm">{{'LAST_KM'}}:{{lastKm.kilometre}}
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar start>
+    <ion-title *ngIf="totalLiter">{{'TOTAL_LITR'}}:{{totalLiter}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -8,21 +8,17 @@
       <ion-option value="30">30</ion-option>
     </ion-select>
   </ion-item>
-  <ion-item>
+  <!-- <ion-item>
     <ion-label>Chart</ion-label>
-    <ion-select [(ngModel)]="chart">
+    <ion-select >
       <ion-option value="line" checked>line</ion-option>
       <ion-option value="bar">bar</ion-option>
     </ion-select>
-  </ion-item>
+  </ion-item> -->
   <ion-item>
-    <ion-label>Toggle</ion-label>
-    <ion-toggle></ion-toggle>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>Checkbox</ion-label>
-    <ion-checkbox></ion-checkbox>
+    <ion-label>Line</ion-label>
+    <ion-toggle [(ngModel)]="chart"></ion-toggle>
+    <ion-label>Bar</ion-label>
   </ion-item>
   
   <ion-item>
@@ -31,7 +27,7 @@
     </ion-range>
   </ion-item>
   <ion-buttons center>
-    <button ion-button round outline (click)="addCar()">
+    <button ion-button round outline (click)="applyFilter()">
       APPLY </button>
   </ion-buttons>
 

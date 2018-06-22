@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'LIST_MASTER_TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'DASHBOARD' | translate }}</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="addCar()">
@@ -21,18 +21,18 @@
     <ion-list>
       <button ion-item (click)="openFuelList(i)">
         <ion-icon name="battery-charging" item-start></ion-icon>
-        add fuel
+       {{ 'ADD_FUEL' | translate }}
       </button>
 
       <button ion-item>
         <ion-icon name="car" item-start></ion-icon>
-        add kilometre
+       {{ 'ADD_KILOOMETR' | translate }}
       </button>
 
 
       <button ion-item (click)="addPart(i)">
         <ion-icon name="warning" item-start></ion-icon>
-        add part
+       {{ 'ADD_PART' | translate }}
       </button>
 
       <ion-item *ngIf="car.parts">
@@ -46,7 +46,8 @@
 
       <button ion-item (click)="openReport(i)">
         <ion-icon name="grid" item-start></ion-icon>
-        reports
+               {{ 'REPORTS' | translate }}
+
       </button>
 
 

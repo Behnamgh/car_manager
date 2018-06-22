@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 // import { Item } from '../../models/item';
-// import { Items, DataProvider } from '../../providers/providers';
+import { DataProvider } from '../../providers/providers';
 
 @IonicPage()
 @Component({
@@ -11,26 +11,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SearchPage {
 
-  // currentItems: any = [];
+  currentItems: any = [];
+  data: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) { 
-    // let result = dataProvider.loadDatas();
-    // console.log(result);
-    
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
+    this.data = dataProvider.loadDatas();
+
   }
 
   /**
    * Perform a service for the proper items.
    */
   getItems(ev) {
-    // let val = ev.target.value;
-    // if (!val || !val.trim()) {
-    //   this.currentItems = [];
-    //   return;
-    // }
-    // this.currentItems = this.items.query({
-    //   name: val
-    // });
+    let val = ev.target.value;
+    if (!val || !val.trim()) {
+      this.currentItems = [];
+      return;
+    }
+    console.log(this.data);
+    
+    this.currentItems = this.data ? this.data.filter(i => i.name.includes(val)):[];
   }
 
   /**

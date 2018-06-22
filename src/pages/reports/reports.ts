@@ -45,14 +45,8 @@ export class ReportsPage {
       this.lineChartType = res ? res : 'line';
     });
     this.usageData = this.dataProvider.carReport(this.carNumber)['result'];
-    // this.usageData = [{
-    //   label: 'Average User',
-    //   data: [
-    //     [{ x: 0, y: 10 }, { x: 10, y: 3 }],
-    //     [{ x: 0, y: 2 }, { x: 5, y: 7 }]
-    //   ]
-    // }];
-    // this.usageLabels = [-3,-2,-1];
+    console.log('usage data',this.usageData);
+    
     this.usageLabels = this.dataProvider.carReport(0)['label'];
     // console.log(this.usageData);
 
@@ -81,5 +75,10 @@ export class ReportsPage {
     popover.present({
       ev: myEvent
     });
+    popover.onDidDismiss(function (data) {
+      this.usageData = this.usageData.slice(0,data.count);
+      this.lineChartType = data.chart;
+      //data filter todo
+    })
   }
 }

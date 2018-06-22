@@ -19,6 +19,9 @@ export class FuelListPage {
   carNumber: number;
   fuelList: any = [];
   mode: boolean = true;
+  totalLiter: number;
+  lastKm: number;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public dataProvider: DataProvider) {
     this.carNumber = navParams.get('car');
     // console.log(this.carNumber);
@@ -44,6 +47,16 @@ export class FuelListPage {
   }
   loadFuelList() {
     this.fuelList = this.dataProvider.getFuelList(this.carNumber);
+    if (this.fuelList.length) {
+      this.lastKm = this.fuelList.reduce((prev, current) => {
+        return (prev.kilometre > current.kilometre) ? prev : current;
+      });
+      this.totalLiter = this.fuelList.reduce((prev, current) => parseInt(prev.litr) + parseInt(current.litr));
+
+    } else {
+      this.lastKm = 0;
+      this.totalLiter = 0;
+    }
   }
   favorite(i) {
     this.dataProvider.favoriteFuel(this.carNumber, i);

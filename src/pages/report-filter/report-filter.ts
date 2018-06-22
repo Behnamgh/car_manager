@@ -23,7 +23,11 @@ export class ReportFilterPage {
   constructor(public viewCtrl: ViewController) { }
 
   close() {
-    this.viewCtrl.dismiss();
+  }
+  applyFilter(){
+    console.log('apply filter');
+    this.viewCtrl.dismiss({chart:this.chart?'bar':'line',count:this.count,dateAgo:this.dateAgo});
+    
   }
 
 }

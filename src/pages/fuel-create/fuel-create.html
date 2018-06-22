@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'Fuel createsss' | translate }}</ion-title>
+    <ion-title>{{ 'FUEL_CREATE' | translate }}</ion-title>
     <ion-buttons start>
       <button ion-button (click)="cancel()">
         <span color="primary" showWhen="ios">
@@ -24,7 +24,7 @@
 
 
 <ion-content>
-  <p>Enter Fuel Data For {{carData.name}} </p>
+  <p>{{'ENTER_FUEL_DATA'}} {{carData.name}} </p>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
 
     <ion-list>
@@ -33,20 +33,25 @@
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'location' | translate }}</ion-label>
+        <ion-label>{{ 'LOCATION' | translate }}</ion-label>
         <ion-input type="text" formControlName="location"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'date' | translate }}</ion-label>
-        <ion-datetime displayFormat="YYYY/M/D" pickerFormat="YYYY MMMM D" formControlName="date" monthNames="[فروردین, اردیبهشت, خرداد, تیر, مرداد, شهریور, مهر, آبان, آذر, دی, بهمن, اسفند]" [yearValues]="yearVal"></ion-datetime>
+        <ion-label>{{ 'DATE' | translate }}</ion-label>
+        <ion-datetime displayFormat="YYYY/M/D" pickerFormat="YYYY MMMM D" formControlName="date" monthNames="[فروردین, اردیبهشت, خرداد, تیر, مرداد, شهریور, مهر, آبان, آذر, دی, بهمن, اسفند]"
+          [yearValues]="yearVal"></ion-datetime>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'litr' | translate }}</ion-label>
+        <ion-label>{{ 'LITR' | translate }}</ion-label>
         <ion-input type="text" formControlName="litr"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'KM' | translate }}</ion-label>
+        <ion-label>{{ 'KILOMETR' | translate }}</ion-label>
         <ion-input type="text" formControlName="kilometre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'FUEL_TYPE' | translate }}</ion-label>
+        <ion-input type="radio" formControlName="fuel_type"></ion-input>
       </ion-item>
     </ion-list>
   </form>

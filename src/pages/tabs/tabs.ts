@@ -36,10 +36,10 @@ export class TabsPage {
 
   }
   translate_tab() {
-    this.translate.get(['TAB1_TITLE', 'TAB2_TITLE', 'TAB3_TITLE']).subscribe(values => {
-      this.tab1Title = values['TAB1_TITLE'];
-      this.tab2Title = values['TAB2_TITLE'];
-      this.tab3Title = values['TAB3_TITLE'];
+    this.translate.get(['DASHBOARD', 'SEARCH_TITLE', 'SETTINGS_TITLE']).subscribe(values => {
+      this.tab1Title = values['DASHBOARD'];
+      this.tab2Title = values['SEARCH_TITLE'];
+      this.tab3Title = values['SETTINGS_TITLE'];
     });
 
   }

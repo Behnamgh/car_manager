@@ -28,11 +28,11 @@ export class FuelCreatePage {
     let carNumber = navParams.get('carNumber');
     let data = navParams.get('data');
     this.carData = this.dataProvider.loadCar(carNumber);
-    
+
     let MIN = dataProvider.getMaxKm(carNumber) + 1;
     // console.log(MIN);
-    
-    if(data){
+
+    if (data) {
       console.log(data);
       this.form = formBuilder.group({
         name: [data.name],
@@ -40,16 +40,18 @@ export class FuelCreatePage {
         date: [data.date, Validators.required],
         litr: [data.litr, [Validators.min(0), Validators.required]],
         kilometre: [data.kilometre, [Validators.required]],
+        fuel_type: [data.fuel_type]
       });
-      
-    }else{
-      
+
+    } else {
+
       this.form = formBuilder.group({
         name: [''],
         location: [''],
         date: [moment().format('jYYYY-jMM-jDDTHH:MM:SS'), Validators.required],
         litr: ['', [Validators.min(0), Validators.required]],
         kilometre: [, [Validators.min(MIN), Validators.required]],
+        fuel_type: [false]
       });
     }
 
