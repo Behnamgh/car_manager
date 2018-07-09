@@ -51,8 +51,12 @@ export class FuelListPage {
       this.lastKm = this.fuelList.reduce((prev, current) => {
         return (prev.kilometre > current.kilometre) ? prev : current;
       });
-      this.totalLiter = this.fuelList.reduce((prev, current) => parseInt(prev.litr) + parseInt(current.litr));
-
+      
+      if (this.fuelList.length > 1) this.totalLiter = this.fuelList.reduce((prev, current) => {
+       return {litr: parseInt(prev.litr) + parseInt(current.litr)};
+      });
+      if (this.fuelList.length == 1) this.totalLiter  = this.fuelList[0];
+      
     } else {
       this.lastKm = 0;
       this.totalLiter = 0;
