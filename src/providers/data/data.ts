@@ -133,10 +133,18 @@ export class DataProvider {
   carReport(carNumber) {
     let result = JSON.parse(localStorage.getItem('datas'));
     let list = result[carNumber].Fuels ? result[carNumber].Fuels : [];
-    let report = [];
-    report['result'] = [{ data: list.map(item => parseInt(item.kilometre)), label: result[carNumber]['name'] }];
-    report['label'] = list.map(item => moment(item.date, 'jYYYY/jMM/jDD').diff(new Date(), "days"));
-    // // console.log(list);
+    let report = {result:[],label:[]};
+    report['result'] = [{
+      data: [], label: result[carNumber]['name']
+    }];
+    list.reduce((acc, cur) => {
+      console.log(cur.litr * 100 / (cur.kilometre - acc.kilometre));
+      
+      report['result'][0].data.push(cur.litr * 100 / (cur.kilometre - acc.kilometre));
+      report['label'].push(moment(cur.date, 'jYYYY/jMM/jDD').diff(new Date(), "days"));
+      return cur;
+    })
+    console.log('report', report);
     return report;
   }
   loadPart(carNumber, partNumber) {
