@@ -33,23 +33,26 @@ export class ListMasterPage {
 
   }
   loadData() {
-    let datas = this.dataProvider.loadDatas();
-    if (datas) {
-      datas.forEach(car => {
-        if(car.parts){
-          car.parts.forEach(part => {
-            part.notification = 0;
-            if(part.list){
-              part.list.filter(item => !item.reminded && item.reminder_type == 'km').forEach(item => {
-                if (item.kilometre < car.maxKm)++part.notification;
-              });
-            }
-            console.log(part);
-          });
-        }
-      });
-    }
-    this.datas = datas
+    this.dataProvider.loadDatas().then(result => {
+      let datas = result;
+
+      if (datas) {
+        datas.forEach(car => {
+          if (car.parts) {
+            car.parts.forEach(part => {
+              part.notification = 0;
+              if (part.list) {
+                part.list.filter(item => !item.reminded && item.reminder_type == 'km').forEach(item => {
+                  if (item.kilometre < car.maxKm)++part.notification;
+                });
+              }
+              console.log(part);
+            });
+          }
+        });
+      }
+      this.datas = datas
+    });
   }
 
   /**
@@ -91,8 +94,10 @@ export class ListMasterPage {
     let addModal = this.modalCtrl.create(ItemCreatePage);
     addModal.onDidDismiss(item => {
       if (item) {
-        this.dataProvider.addData('datas', item);
-        this.loadData();
+        this.dataProvider.addData('datas', item).then(()=> {
+          
+          this.loadData();
+        });
       }
       // console.log(item);
 
@@ -105,8 +110,10 @@ export class ListMasterPage {
     let addModal = this.modalCtrl.create(AddPartPage);
     addModal.onDidDismiss(item => {
       if (item) {
-        this.dataProvider.addPart(index, item);
-        this.loadData();
+        this.dataProvider.addPart(index, item).then(() => {
+
+          this.loadData();
+        });
       }
       // console.log(item);
 

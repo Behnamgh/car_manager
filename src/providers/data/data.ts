@@ -20,22 +20,23 @@ export class DataProvider {
 
   }
   setData(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-    // this.storage.set(key, value);
+    // localStorage.setItem(key, JSON.stringify(value));
+    this.storage.set(key, JSON.stringify(value));
   }
-  addData(key, value) {
+  async addData(key, value) {
+    let jsonResult = JSON.parse(await this.storage.get(key));
+      if (jsonResult) jsonResult.push(value);
+      let data = jsonResult ? jsonResult : [value];
+      this.storage.set(key, JSON.stringify(data));
 
-    let result = JSON.parse(localStorage.getItem(key));
-    if (result) result.push(value);
-    let data = result ? result : [value];
-    localStorage.setItem(key, JSON.stringify(data));
   }
-  loadDatas(key: string = 'datas') {
+  async loadDatas(key: string = 'datas') {
     this.updateMaxKm();
-    return JSON.parse(localStorage.getItem(key));
+    return JSON.parse(await this.storage.get('datas'));
   }
-  updateMaxKm() {
-    let datas = JSON.parse(localStorage.getItem('datas'));
+  async updateMaxKm() {
+
+    let datas = JSON.parse(await this.storage.get('data'));
     let newDatas = [];
     if (datas && datas.length) {
       datas.forEach(car => {
@@ -54,12 +55,12 @@ export class DataProvider {
       this.setData('datas', newDatas);
     }
   }
-  loadCar(carNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async loadCar(carNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
     return result[carNumber];
   }
-  addPart(index, item) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async addPart(index, item) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let parts = result[index].parts;
     if (parts) {
       parts.push(item);
@@ -67,13 +68,14 @@ export class DataProvider {
       parts = [item]
     }
     result[index].parts = parts;
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result);
   }
   loadFuel() {
 
   }
-  addFuel(carNumber, item) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async addFuel(carNumber, item) {
+    let result = JSON.parse(await this.storage.get('datas'));
+
     let Fuels = result[carNumber].Fuels;
     if (Fuels) {
       Fuels.push(item);
@@ -82,64 +84,66 @@ export class DataProvider {
     }
     result[carNumber].Fuels = Fuels;
     // // console.log(Fuels, result)
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result)
+    // localStorage.setItem('datas', JSON.stringify(result));
   }
-  editFuel(carNumber, fuelNumber, item) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async editFuel(carNumber, fuelNumber, item) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let Fuels = result[carNumber].Fuels;
     Fuels[fuelNumber] = item;
     result[carNumber].Fuels = Fuels;
-    localStorage.setItem('datas', JSON.stringify(result));
-
+    this.setData('datas', result);
   }
-  getFuelList(carNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async getFuelList(carNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
+
     let list = result[carNumber].Fuels ? result[carNumber].Fuels : [];
     // // console.log(list);
     return list;
   }
-  removeAllFuels(carNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async removeAllFuels(carNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
+
     let Fuels = result[carNumber].Fuels;
     if (Fuels) {
       Fuels = [];
     }
     result[carNumber].Fuels = Fuels;
     // // console.log(Fuels, result)
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result);
   }
-  getMaxKm(carNumber) {
-    let list = this.getFuelList(carNumber);
+  async getMaxKm(carNumber) {
+    let list = await this.getFuelList(carNumber);
     // // console.log(list.length);
 
     return list.length ? Math.max(...list.map(fuel => parseInt(fuel.kilometre))) : 0;
   }
-  deleteFuel(carNumber, fuelNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async deleteFuel(carNumber, fuelNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let Fuels = result[carNumber].Fuels;
     Fuels.splice(fuelNumber, 1);
     result[carNumber].Fuels = Fuels;
     // // console.log(Fuels, result)
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result);
   }
-  favoriteFuel(carNumber, fuelNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async favoriteFuel(carNumber, fuelNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let Fuels = result[carNumber].Fuels;
     Fuels[fuelNumber]['favorite'] = 'true';
     result[carNumber].Fuels = Fuels;
     // // console.log(Fuels, result)
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result);
   }
-  carReport(carNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async carReport(carNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let list = result[carNumber].Fuels ? result[carNumber].Fuels : [];
-    let report = {result:[],label:[]};
+    let report = { result: [], label: [] };
     report['result'] = [{
       data: [], label: result[carNumber]['name']
     }];
     list.reduce((acc, cur) => {
       console.log(cur.litr * 100 / (cur.kilometre - acc.kilometre));
-      
+
       report['result'][0].data.push(cur.litr * 100 / (cur.kilometre - acc.kilometre));
       report['label'].push(moment(cur.date, 'jYYYY/jMM/jDD').diff(new Date(), "days"));
       return cur;
@@ -147,13 +151,13 @@ export class DataProvider {
     console.log('report', report);
     return report;
   }
-  loadPart(carNumber, partNumber) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async loadPart(carNumber, partNumber) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let part = result[carNumber].parts[partNumber];
     return part;
   }
-  addPartRenew(carNumber, partNumber, item) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async addPartRenew(carNumber, partNumber, item) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let part = result[carNumber].parts[partNumber]['list'];
 
     if (part) {
@@ -166,8 +170,7 @@ export class DataProvider {
     result[carNumber].parts[partNumber]['list'] = part;
     let res = this.checkReminder2(carNumber, result[carNumber].parts, item.kilometre);
     console.log(res);
-
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result)
     return res;
   }
   checkReminder2(carNumber, parts, km) {
@@ -188,8 +191,8 @@ export class DataProvider {
     return alertList;
   }
 
-  disablePartAlert(carNumber, partNumber, i) {
-    let result = JSON.parse(localStorage.getItem('datas'));
+  async disablePartAlert(carNumber, partNumber, i) {
+    let result = JSON.parse(await this.storage.get('datas'));
     let parts = result[carNumber].parts;
     if (parts[partNumber].list[i]['reminded']) {
 
@@ -200,7 +203,7 @@ export class DataProvider {
     }
     result[carNumber].parts = parts;
     console.log(parts, result);
-    localStorage.setItem('datas', JSON.stringify(result));
+    this.setData('datas', result);
   }
   checkReminder(part, km) {
     part.filter(item => !item.reminded && item.reminder_type == 'km');
