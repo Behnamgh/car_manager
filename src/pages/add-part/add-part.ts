@@ -77,7 +77,7 @@ export class AddPartPage {
    */
   cancel() {
     console.log('c');
-    
+
     this.viewCtrl.dismiss();
   }
 

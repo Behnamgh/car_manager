@@ -94,26 +94,17 @@ export class ListMasterPage {
     let addModal = this.modalCtrl.create(ItemCreatePage);
     addModal.onDidDismiss(item => {
       if (item) {
-        this.dataProvider.addData('datas', item).then(()=> {
-          
-          this.loadData();
-        });
+        this.dataProvider.addData('datas', item).then(() => this.loadData());
       }
-      // console.log(item);
 
     })
     addModal.present();
   }
   addPart(index) {
-    console.log('addPart');
-
     let addModal = this.modalCtrl.create(AddPartPage);
     addModal.onDidDismiss(item => {
       if (item) {
-        this.dataProvider.addPart(index, item).then(() => {
-
-          this.loadData();
-        });
+        this.dataProvider.addPart(index, item).then(() => this.loadData());
       }
       // console.log(item);
 

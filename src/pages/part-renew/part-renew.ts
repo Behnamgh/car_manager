@@ -25,7 +25,7 @@ export class PartRenewPage {
   yearVal = [moment().jYear(), moment().jYear() - 1];
   carData: object;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public dataProvider: DataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder) {
 
     this.form = formBuilder.group({
       name: [''],

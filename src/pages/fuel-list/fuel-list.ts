@@ -35,53 +35,47 @@ export class FuelListPage {
     let addFuel = this.modalCtrl.create(FuelCreatePage, { carNumber: this.carNumber });
     addFuel.onDidDismiss(item => {
       if (item) {
-        // console.log(item.date);
-
-        this.dataProvider.addFuel(this.carNumber, item);
-        this.loadFuelList();
+        this.dataProvider.addFuel(this.carNumber, item).then(() => this.loadFuelList());
       }
-      // console.log(item);
-
     })
     addFuel.present();
   }
   loadFuelList() {
-    this.fuelList = this.dataProvider.getFuelList(this.carNumber);
-    if (this.fuelList.length) {
-      this.lastKm = this.fuelList.reduce((prev, current) => {
-        return (prev.kilometre > current.kilometre) ? prev : current;
-      });
-      
-      if (this.fuelList.length > 1) this.totalLiter = this.fuelList.reduce((prev, current) => {
-       return {litr: parseInt(prev.litr) + parseInt(current.litr)};
-      });
-      if (this.fuelList.length == 1) this.totalLiter  = this.fuelList[0];
-      
-    } else {
-      this.lastKm = 0;
-      this.totalLiter = 0;
-    }
+    this.dataProvider.getFuelList(this.carNumber).then(result => {
+      this.fuelList = result;
+
+      if (this.fuelList.length) {
+        this.lastKm = this.fuelList.reduce((prev, current) => {
+          return (prev.kilometre > current.kilometre) ? prev : current;
+        });
+
+        if (this.fuelList.length > 1) this.totalLiter = this.fuelList.reduce((prev, current) => {
+          return { litr: parseInt(prev.litr) + parseInt(current.litr) };
+        });
+        if (this.fuelList.length == 1) this.totalLiter = this.fuelList[0];
+
+      } else {
+        this.lastKm = 0;
+        this.totalLiter = 0;
+      }
+    });
   }
   favorite(i) {
-    this.dataProvider.favoriteFuel(this.carNumber, i);
-    this.loadFuelList();
+    this.dataProvider.favoriteFuel(this.carNumber, i).then(() => this.loadFuelList());
   }
   edit(i) {
     let addFuel = this.modalCtrl.create(FuelCreatePage, { carNumber: this.carNumber, data: this.fuelList[i] });
     addFuel.onDidDismiss(item => {
       if (item) {
         console.log(item);
-        this.dataProvider.editFuel(this.carNumber, i, item);
-        this.loadFuelList();
-
+        this.dataProvider.editFuel(this.carNumber, i, item).then(() => this.loadFuelList());
       }
-
     })
     addFuel.present();
   }
   delete(i) {
-    this.dataProvider.deleteFuel(this.carNumber, i);
-    this.loadFuelList();
+    this.dataProvider.deleteFuel(this.carNumber, i).then(() => this.loadFuelList());
+
   }
   reorderItems(indexes) {
     // console.log(indexes);

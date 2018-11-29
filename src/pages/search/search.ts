@@ -15,7 +15,7 @@ export class SearchPage {
   data: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
-    this.data = dataProvider.loadDatas();
+    dataProvider.loadDatas().then(this.data);
 
   }
 
@@ -29,8 +29,8 @@ export class SearchPage {
       return;
     }
     console.log(this.data);
-    
-    this.currentItems = this.data ? this.data.filter(i => i.name.includes(val)):[];
+
+    this.currentItems = this.data ? this.data.filter(i => i.name.includes(val)) : [];
   }
 
   /**

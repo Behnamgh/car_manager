@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { PartRenewPage } from '../part-renew/part-renew';
+import { Part } from '../../models/part.model';
 
 /**
  * Generated class for the PartListPage page.
@@ -18,7 +19,7 @@ import { PartRenewPage } from '../part-renew/part-renew';
 export class PartListPage {
   carNumber: number;
   partNumber: number;
-  partData: any;
+  partData: Part;
   constructor(public navCtrl: NavController, private alertCtrl: AlertController, public navParams: NavParams, public modalCtrl: ModalController, private data: DataProvider) {
     this.carNumber = navParams.get('car');
     this.partNumber = navParams.get('part');
@@ -31,44 +32,49 @@ export class PartListPage {
     let addPartRenew = this.modalCtrl.create(PartRenewPage);
     addPartRenew.onDidDismiss(item => {
       if (item) {
-        let alertList = this.data.addPartRenew(this.carNumber, this.partNumber, item);
+        this.data.addPartRenew(this.carNumber, this.partNumber, item).then(result => {
+          let alertList = result;
+          if (alertList.length) {
+            let alert = this.alertCtrl.create();
+            alert.setTitle('reminder');
+            alertList.forEach(element => {
 
-        if (alertList.length) {
-          let alert = this.alertCtrl.create();
-          alert.setTitle('reminder');
-          alertList.forEach(element => {
-
-            alert.addInput({
-              type: 'radio',
-              label: element.name,
-              value: element.value,
-              checked: false
+              alert.addInput({
+                type: 'radio',
+                label: element.name,
+                value: element.value,
+                checked: false
+              });
             });
-          });
 
-          alert.addButton('Cancel');
-          alert.addButton({
-            text: 'Ok',
-            handler: (data: any) => {
-              console.log('Radio data:', data);
-              this.openPart(this.carNumber,data);
-            }
-          });
+            alert.addButton('Cancel');
+            alert.addButton({
+              text: 'Ok',
+              handler: (data: any) => {
+                console.log('Radio data:', data);
+                this.openPart(this.carNumber, data);
+              }
+            });
 
-          alert.present();
-        }
+            alert.present();
+          }
 
-        this.loadPartList();
+          this.loadPartList();
+        });
+
+
       }
     })
     addPartRenew.present();
   }
   loadPartList() {
-    this.partData = this.data.loadPart(this.carNumber, this.partNumber);
+    this.data.loadPart(this.carNumber, this.partNumber).then(result => {
+      this.partData = result
+    });
   }
   disabled(i) {
-    this.data.disablePartAlert(this.carNumber, this.partNumber, i);
-    this.loadPartList();
+    this.data.disablePartAlert(this.carNumber, this.partNumber, i).then(() => this.loadPartList());
+
 
   }
   delete(i) {

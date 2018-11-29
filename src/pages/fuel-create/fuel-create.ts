@@ -29,8 +29,10 @@ export class FuelCreatePage {
     let data = navParams.get('data');
     this.carData = this.dataProvider.loadCar(carNumber);
 
-    let MIN = dataProvider.getMaxKm(carNumber) + 1;
-    // console.log(MIN);
+    let MIN;
+    dataProvider.getMaxKm(carNumber).then(result => {
+      MIN = ++result
+    });
 
     if (data) {
       console.log(data);

@@ -4,6 +4,10 @@ import { Storage } from '@ionic/storage';
 import * as moment from 'jalali-moment';
 import { AlertController, NavController } from 'ionic-angular';
 import { PartListPage } from '../../pages/part-list/part-list';
+import { Car } from '../../models/car.model';
+import { PartChange } from '../../models/partChange.model';
+import { Part } from '../../models/part.model';
+import { Fuel } from '../../models/fuel.model';
 
 
 
@@ -19,29 +23,29 @@ export class DataProvider {
   constructor(public storage: Storage) {
 
   }
-  setData(key, value) {
+  setData(key, value: Car[]) {
     // localStorage.setItem(key, JSON.stringify(value));
     this.storage.set(key, JSON.stringify(value));
   }
-  async addData(key, value) {
+  async addData(key, value: Car): Promise<void> {
     let jsonResult = JSON.parse(await this.storage.get(key));
-      if (jsonResult) jsonResult.push(value);
-      let data = jsonResult ? jsonResult : [value];
-      this.storage.set(key, JSON.stringify(data));
+    if (jsonResult) jsonResult.push(value);
+    let data = jsonResult ? jsonResult : [value];
+    this.storage.set(key, JSON.stringify(data));
 
   }
-  async loadDatas(key: string = 'datas') {
+  async loadDatas(key: string = 'datas'): Promise<Car[]> {
     this.updateMaxKm();
     return JSON.parse(await this.storage.get('datas'));
   }
-  async updateMaxKm() {
+  async updateMaxKm(): Promise<void> {
 
     let datas = JSON.parse(await this.storage.get('data'));
     let newDatas = [];
     if (datas && datas.length) {
       datas.forEach(car => {
         let max;
-        max = car.Fuels && car.Fuels.length ? Math.max(...car.Fuels.map(fuel => parseInt(fuel.kilometre))) : 0;
+        max = car.fuels && car.fuels.length ? Math.max(...car.fuels.map(fuel => parseInt(fuel.kilometre))) : 0;
         if (car.parts && car.parts.length) {
           car.parts.forEach(part => {
             let partMax;
@@ -49,17 +53,17 @@ export class DataProvider {
             if (partMax > max) max = partMax;
           });
         }
-        car['maxKm'] = max;
+        car.maxKm = max;
         newDatas.push(car);
       });
       this.setData('datas', newDatas);
     }
   }
-  async loadCar(carNumber) {
+  async loadCar(carNumber: number): Promise<Car> {
     let result = JSON.parse(await this.storage.get('datas'));
     return result[carNumber];
   }
-  async addPart(index, item) {
+  async addPart(index, item: Part): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
     let parts = result[index].parts;
     if (parts) {
@@ -73,70 +77,68 @@ export class DataProvider {
   loadFuel() {
 
   }
-  async addFuel(carNumber, item) {
+  async addFuel(carNumber: number, item: Fuel): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
 
-    let Fuels = result[carNumber].Fuels;
-    if (Fuels) {
-      Fuels.push(item);
+    let fuels = result[carNumber].fuels;
+    if (fuels) {
+      fuels.push(item);
     } else {
-      Fuels = [item]
+      fuels = [item]
     }
-    result[carNumber].Fuels = Fuels;
-    // // console.log(Fuels, result)
+    result[carNumber].fuels = fuels;
+    // // console.log(fuels, result)
     this.setData('datas', result)
     // localStorage.setItem('datas', JSON.stringify(result));
   }
-  async editFuel(carNumber, fuelNumber, item) {
+  async editFuel(carNumber: number, fuelNumber: number, item: Fuel): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
-    let Fuels = result[carNumber].Fuels;
-    Fuels[fuelNumber] = item;
-    result[carNumber].Fuels = Fuels;
+    let fuels = result[carNumber].fuels;
+    fuels[fuelNumber] = item;
+    result[carNumber].fuels = fuels;
     this.setData('datas', result);
   }
-  async getFuelList(carNumber) {
+  async getFuelList(carNumber: number): Promise<Fuel[]> {
     let result = JSON.parse(await this.storage.get('datas'));
 
-    let list = result[carNumber].Fuels ? result[carNumber].Fuels : [];
+    let list = result[carNumber].fuels ? result[carNumber].fuels : [];
     // // console.log(list);
     return list;
   }
-  async removeAllFuels(carNumber) {
+  async removeAllfuels(carNumber): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
 
-    let Fuels = result[carNumber].Fuels;
-    if (Fuels) {
-      Fuels = [];
+    let fuels = result[carNumber].fuels;
+    if (fuels) {
+      fuels = [];
     }
-    result[carNumber].Fuels = Fuels;
-    // // console.log(Fuels, result)
+    result[carNumber].fuels = fuels;
+    // // console.log(fuels, result)
     this.setData('datas', result);
   }
-  async getMaxKm(carNumber) {
+  async getMaxKm(carNumber): Promise<number> {
     let list = await this.getFuelList(carNumber);
-    // // console.log(list.length);
-
-    return list.length ? Math.max(...list.map(fuel => parseInt(fuel.kilometre))) : 0;
+    return list.length ? Math.max(...list.map(fuel => fuel.kilometre)) : 0;
   }
-  async deleteFuel(carNumber, fuelNumber) {
+  async deleteFuel(carNumber, fuelNumber): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
-    let Fuels = result[carNumber].Fuels;
-    Fuels.splice(fuelNumber, 1);
-    result[carNumber].Fuels = Fuels;
-    // // console.log(Fuels, result)
+    let fuels = result[carNumber].fuels;
+    fuels.splice(fuelNumber, 1);
+    result[carNumber].fuels = fuels;
+    // // console.log(fuels, result)
     this.setData('datas', result);
   }
-  async favoriteFuel(carNumber, fuelNumber) {
+  async favoriteFuel(carNumber, fuelNumber): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
-    let Fuels = result[carNumber].Fuels;
-    Fuels[fuelNumber]['favorite'] = 'true';
-    result[carNumber].Fuels = Fuels;
-    // // console.log(Fuels, result)
+    let fuels = result[carNumber].fuels;
+    fuels[fuelNumber]['favorite'] = 'true';
+    result[carNumber].fuels = fuels;
+    // // console.log(fuels, result)
     this.setData('datas', result);
   }
   async carReport(carNumber) {
     let result = JSON.parse(await this.storage.get('datas'));
-    let list = result[carNumber].Fuels ? result[carNumber].Fuels : [];
+    let list = result[carNumber].fuels ? result[carNumber].fuels : [];
     let report = { result: [], label: [] };
     report['result'] = [{
       data: [], label: result[carNumber]['name']
@@ -151,12 +153,12 @@ export class DataProvider {
     console.log('report', report);
     return report;
   }
-  async loadPart(carNumber, partNumber) {
+  async loadPart(carNumber, partNumber): Promise<Part> {
     let result = JSON.parse(await this.storage.get('datas'));
     let part = result[carNumber].parts[partNumber];
     return part;
   }
-  async addPartRenew(carNumber, partNumber, item) {
+  async addPartRenew(carNumber: number, partNumber: number, item: PartChange): Promise<any> {
     let result = JSON.parse(await this.storage.get('datas'));
     let part = result[carNumber].parts[partNumber]['list'];
 
@@ -173,7 +175,7 @@ export class DataProvider {
     this.setData('datas', result)
     return res;
   }
-  checkReminder2(carNumber, parts, km) {
+  checkReminder2(carNumber, parts, km): Array<any> {
     let alertList = [];
     // console.log('inside', parts, km);
 
@@ -191,7 +193,7 @@ export class DataProvider {
     return alertList;
   }
 
-  async disablePartAlert(carNumber, partNumber, i) {
+  async disablePartAlert(carNumber, partNumber, i): Promise<void> {
     let result = JSON.parse(await this.storage.get('datas'));
     let parts = result[carNumber].parts;
     if (parts[partNumber].list[i]['reminded']) {
@@ -205,7 +207,7 @@ export class DataProvider {
     console.log(parts, result);
     this.setData('datas', result);
   }
-  checkReminder(part, km) {
+  checkReminder(part, km): boolean {
     part.filter(item => !item.reminded && item.reminder_type == 'km');
     // console.log(part);
 
