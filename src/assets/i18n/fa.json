@@ -46,5 +46,11 @@
 	"ADD_KILOOMETR": "ثبت کیلومتر-به زودی",
 	"ADD_PART": "قطعات",
 	"REPORTS": "گزارش‌ها",
-	"DELETE_STORAGE": "خالی کردن حافظه"
+	"DELETE_STORAGE": "خالی کردن حافظه",
+	"FUEL_CREATE": "ثبت سوخت",
+	"LOCATION":"مکان",
+	"DATE":"زمان",
+	"LITR":"لیتر",
+	"KILOMETR":"کیلومتر",
+	"FUEL_TYPE":"نوع سوخت"
 }
