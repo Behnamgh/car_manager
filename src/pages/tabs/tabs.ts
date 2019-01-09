@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { ListMasterPage } from '../list-master/list-master';
 import { SearchPage } from '../search/search';

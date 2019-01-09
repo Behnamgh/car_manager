@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-
 import * as moment from 'jalali-moment';
-import { AlertController, NavController } from 'ionic-angular';
-import { PartListPage } from '../../pages/part-list/part-list';
 import { Car } from '../../models/car.model';
 import { PartChange } from '../../models/partChange.model';
 import { Part } from '../../models/part.model';
@@ -181,7 +178,7 @@ export class DataProvider {
 
     parts.forEach((part, i) => {
       part.list.filter(item => !item.reminded && item.reminder_type == 'km');
-      let o = part.list.some(element => {
+      part.list.some(element => {
         if (parseInt(km) > parseInt(element.kilometre) + parseInt(element.reminder_period)) {
           alertList.push({ name: part.name, value: i });
 
@@ -211,7 +208,7 @@ export class DataProvider {
     part.filter(item => !item.reminded && item.reminder_type == 'km');
     // console.log(part);
 
-    let o = part.some(element => {
+    part.some(element => {
       // console.log(parseInt(km), parseInt(element.kilometre) + parseInt(element.reminder_period));
       if (parseInt(km) > parseInt(element.kilometre) + parseInt(element.reminder_period)) {
         // console.log('notificationnnnn');

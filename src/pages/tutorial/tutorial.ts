@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, MenuController, NavController, Platform } from 'ionic-angular';
 
 import { TranslateService } from "@ngx-translate/core";
-import { MainPage } from '../pages';
-import { HomePage } from '../home/home';
 import { TabsPage } from '../tabs/tabs';
 
 
@@ -23,7 +21,7 @@ export class TutorialPage {
   showSkip = true;
   dir: string = 'ltr';
 
-  constructor(private translate: TranslateService,public navCtrl: NavController, public menu: MenuController, public platform: Platform) {
+  constructor(private translate: TranslateService, public navCtrl: NavController, public menu: MenuController, public platform: Platform) {
     this.dir = platform.dir();
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
@@ -56,7 +54,7 @@ export class TutorialPage {
 
   startApp() {
     this.navCtrl.push(TabsPage);
-    localStorage.setItem('skip','true');
+    localStorage.setItem('skip', 'true');
     // this.navCtrl.setRoot('WelcomePage', {}, {
     //   animate: true,
     //   direction: 'forward'
@@ -77,13 +75,13 @@ export class TutorialPage {
     this.menu.enable(true);
   }
   public changeLanguage() {
-    let language = this.translate.currentLang == 'en'?'de':'en';
+    let language = this.translate.currentLang == 'en' ? 'de' : 'en';
     console.log(language);
-    
+
     this.translate.use(language);
     this.translate.setDefaultLang(language);
-    console.log('current', this.translate.getDefaultLang(),this.translate.currentLang);
-    
+    console.log('current', this.translate.getDefaultLang(), this.translate.currentLang);
+
   }
 
 }
